@@ -4,57 +4,74 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.webkit.WebChromeClient
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import com.example.todolist.databinding.ActivityMainBinding
+import com.example.todolist.databinding.ActivityRegisterBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var auth:FirebaseAuth
-    private lateinit var binding:ActivityMainBinding
+class Register : AppCompatActivity() {
+    private lateinit var auth: FirebaseAuth
+    private lateinit var binding: ActivityRegisterBinding
     private lateinit var client: GoogleSignInClient
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.loginBtn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.SignupBtn.setOnClickListener {
+            val name = binding.name.text.toString().trim()
             val email = binding.email.text.toString().trim()
             val pass = binding.password.text.toString().trim()
-            if(email.isNotEmpty() && pass.isNotEmpty()) {
+            val con = binding.conpassword.text.toString().trim()
+            if (name.isNotEmpty() && email.isNotEmpty() && pass.isNotEmpty() && con.isNotEmpty()) {
+                if (pass.length >= 8) {
+                    if (pass == con) {
+                        auth.createUserWithEmailAndPassword(email, pass).addOnSuccessListener {
+                            Toast.makeText(this, "Signed up Successfully!", Toast.LENGTH_SHORT)
+                                .show()
+                            val intent = Intent(this, MainActivity::class.java)
+                            startActivity(intent)
 
-                auth.signInWithEmailAndPassword(email, pass).addOnSuccessListener {
-                    Toast.makeText(this, "Logged in Successfully!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, Home::class.java)
-                    startActivity(intent)
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed to Sign in, Wrong Email or Password !", Toast.LENGTH_SHORT).show()
+                        }
+
+                    } else {
+                        Toast.makeText(this, "Passwords should match!", Toast.LENGTH_SHORT).show()
+
+                    }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Password should at least be 8 characters!",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 }
-            }else{
-                Toast.makeText(this, "Please Enter all fields!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Fields can't be Empty!", Toast.LENGTH_SHORT).show()
 
             }
         }
 
-        binding.SignupBtn.setOnClickListener {
-            val intent = Intent(this, Register::class.java)
-            startActivity(intent)
-        }
-
-        binding.googleloginBtn.setOnClickListener{
+        binding.googleSignupBtn.setOnClickListener {
             signinWithGoogle()
         }
+
     }
+
     private fun signinWithGoogle() {
         val webClientId = getString(R.string.webClientID)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -75,7 +92,7 @@ class MainActivity : AppCompatActivity() {
                     if (account != null) {
                         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                         auth.signInWithCredential(credential).addOnSuccessListener {
-                            Toast.makeText(this, "Login successfully", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Signup successfully", Toast.LENGTH_SHORT).show()
                             val intent = Intent(this, Home::class.java)
                             startActivity(intent)
                         }.addOnFailureListener {
@@ -87,5 +104,4 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
 }

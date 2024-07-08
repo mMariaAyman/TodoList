@@ -3,22 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center"
-    android:layout_gravity="center"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/img"
-    tools:context=".MainActivity">
+    android:gravity="center"
+    tools:context=".Register">
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/welcome"
+        android:text="Register"
         android:gravity="center"
         android:fontFamily="cursive"
         android:textColor="@color/blue"
-        android:textSize="55sp"
+        android:textSize="65sp"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,6 +25,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:hint="Name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -39,8 +52,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-             />
+            />
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         app:passwordToggleEnabled="true"
@@ -58,20 +72,38 @@
             android:inputType="textPassword"
             />
     </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        app:passwordToggleEnabled="true"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:hint="Confirm Password"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/conpassword"
+            android:password="true"
+            android:inputType="textPassword"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="Sign Up"
         android:layout_marginTop="20dp"
         android:textAllCaps="true"
-        android:id="@+id/loginBtn" />
+        android:id="@+id/SignupBtn" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/google_signin"
+        android:background="@drawable/google_signup"
         android:layout_marginTop="20dp"
-        android:id="@+id/googleloginBtn"
+        android:id="@+id/googleSignupBtn"
         android:contentDescription="google" />
+
     <RelativeLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
@@ -81,23 +113,21 @@
             android:id="@+id/txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Don't have an account,  "
+            android:text="Have an account! "
             android:layout_centerHorizontal="true"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/SignupBtn"
+            android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_toEndOf="@+id/txt"
-            android:text="Sigup"
+            android:text="Login"
             android:textColor="@color/blue"
             android:textSize="16sp" />
 
     </RelativeLayout>
-
-
 
 
 </LinearLayout>
